@@ -1,0 +1,5 @@
+*.[oa]
+*.class
+.project
+.classpath
+.settings/
