@@ -3,18 +3,18 @@ package chatbotTask;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class QuestionAnswerPair {
+public class QuestionAnswer {
 	
 	private String question;
 	private HashSet<String> answers;
 	
-	public QuestionAnswerPair(String question, String anwser) {
+	public QuestionAnswer(String question, String anwser) {
 		this.question = question;
 		this.answers = new HashSet<String>();
 		answers.add(anwser);
 	}
 	
-	public QuestionAnswerPair(String question, Collection<String> anwsers) {
+	public QuestionAnswer(String question, Collection<String> anwsers) {
 		this.question = question;
 		this.answers = new HashSet<String>(answers);
 	}
