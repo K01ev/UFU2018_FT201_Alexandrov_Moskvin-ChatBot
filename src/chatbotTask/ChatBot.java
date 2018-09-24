@@ -1,44 +1,38 @@
 package chatbotTask;
 
-import java.util.ArrayList;;
-
-public class ChatBot implements IChatBot
+public class ChatBot //в этом классе можно реализовать все фичи, которые ты хотел сделать в User
+//но нам пока что это не нужно, зачем все усложнять? все и так сложно
 {
 	
-	private ArrayList<QuestionAnswer> questions;
-	private int index;
-	private String help = 
-			"Это помощь бота\n"
-			+ "Список команд:\n"
-			+ "	/help - показать помощь\n"
-			+ "\n"
-			+ "Данный бот будет задавать вопросы и проверять правильность ответов";
-	
-	public ChatBot() {
-		questions = new ArrayList<QuestionAnswer>();
-		questions.add(new QuestionAnswer("Дважды два?", "4"));
-		questions.add(new QuestionAnswer("Столица Дании", "Копенгаген"));
-		index = 0;
+	private IQuestionGenerator qGenerator;
+	private QuestionAnswer currentQuestion;
+	private boolean userAnswered; //просто у тебя при наборе help скипался вопрос
+								  //может ты найдешь лучшее решение этой проблемы
+	public ChatBot(IQuestionGenerator generator) {
+		qGenerator = generator;
+		userAnswered = true;
 	}
 		
 	
 	
-	public Pair<Integer, String> getNextQuestion() {
-		
-		Pair<Integer, String> question = new Pair<Integer, String>(index, 
-						questions.get(index).getQuestion());
-		index = (index +1) % questions.size();
-		return question;
+	public String getNextQuestion() {
+		if (!userAnswered) return null; //подстроился под код, написанный в Main
+		currentQuestion = qGenerator.getQuestion();
+		userAnswered = false;
+		return currentQuestion.getQuestion();
 	}
 	
-	public boolean checkAnswer(int id, String contender) {
-		return questions.get(id).isAnswer(contender);
+	public String checkAnswer(String contender) {
+		if (contender.equals("/help")) //возможно будут другие команды, которые можно юзать прямо во время игры
+			return getHelp();
+		userAnswered = true;
+		return (currentQuestion.isAnswer(contender)) ? "Correct!" : "Incorrect!";
 	}
 	
 	
 
 	public String getHelp() {
-		return help;
+		return Info.help;
 	}
 	
 }

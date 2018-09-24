@@ -18,7 +18,8 @@ public class ConsoleMessageProvider implements IMessageProvider {
 
 	@Override
 	public void sendMessage(String message) {
-		System.out.println(message);
+		if (message != null)
+			System.out.println(message);
 	}
 
 }
