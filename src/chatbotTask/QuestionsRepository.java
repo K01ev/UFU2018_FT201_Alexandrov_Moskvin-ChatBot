@@ -3,12 +3,11 @@ package chatbotTask;
 public class QuestionsRepository implements IQuestionGenerator{
 	
 	private int index;
-	private QuestionAnswer[] questions;
+	private QuestionAnswer[]questions;
 	
-	public QuestionsRepository() {
+	public QuestionsRepository(QuestionAnswer[]questions) {
 		index = 0;
-		this.questions = new QuestionAnswer[] {new QuestionAnswer("Дважды два?", "4"),
-				new QuestionAnswer("Столица Дании", "Копенгаген")};
+		this.questions = questions.clone();
 	}
 	@Override
 	public QuestionAnswer getQuestion() {
