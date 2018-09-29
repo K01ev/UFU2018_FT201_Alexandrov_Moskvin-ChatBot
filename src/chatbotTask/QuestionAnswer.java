@@ -8,13 +8,13 @@ public class QuestionAnswer {
 	private String question;
 	private HashSet<String> answers;
 	
-	public QuestionAnswer(String question, String anwser) {
+	public QuestionAnswer(String question, String answer) {
 		this.question = question;
 		this.answers = new HashSet<String>();
-		answers.add(anwser);
+		answers.add(answer);
 	}
 	
-	public QuestionAnswer(String question, Collection<String> anwsers) {
+	public QuestionAnswer(String question, Collection<String> answers) {
 		this.question = question;
 		this.answers = new HashSet<String>(answers);
 	}
