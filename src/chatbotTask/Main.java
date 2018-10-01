@@ -13,16 +13,18 @@ public class Main {
 					new QuestionAnswer("Столица Дании", "Копенгаген")})
 			);
 		Scanner scanner = new Scanner(System.in);
-		String[] answers;
-		answers = bot.reaction("/help");
-		for (String answer : answers) {
-			System.out.println(answer);
-		}
+		
+		print(bot.reaction("/help"));
+		
 		while(true) {
-			answers = bot.reaction(scanner.nextLine());
-			for (String answer : answers) {
-				System.out.println(answer);
-			}
+			String[] answers = bot.reaction(scanner.nextLine());
+			print(answers);
+		}
+	}
+	
+	public static void print(String[] messages) {
+		for (String message : messages) {
+			System.out.println(message);
 		}
 	}
 }	
