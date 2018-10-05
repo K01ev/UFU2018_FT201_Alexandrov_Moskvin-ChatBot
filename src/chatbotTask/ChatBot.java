@@ -1,47 +1,38 @@
 package chatbotTask;
 
-public class ChatBot
+public class ChatBot implements IChatBot
 {
 	
 	private IQuestionGenerator qGenerator;
-	private QuestionAnswer currentQuestion;
-	private boolean userAnsweredCorrect;
+	public QuestionAnswer currentQuestion;
+	
 	public ChatBot(IQuestionGenerator generator) {
 		qGenerator = generator;
-		userAnsweredCorrect = false;
-		currentQuestion = generator.getQuestion();
 	}
 		
 	
 	
 	private void changeQuestion() {
 		currentQuestion = qGenerator.getQuestion();
-		userAnsweredCorrect = false;
 	}
 	
 	private String checkAnswer(String contender) {
-
-		
 		if (currentQuestion.isAnswer(contender)) {
-			userAnsweredCorrect = true;
+			changeQuestion();
 			return "Correct!";
 		}
-		else {
-			userAnsweredCorrect = false;
+		else 
 			return "Incorrect!";
-		}
-
 	}
 	
 	private String getQuestion() {
-		if (userAnsweredCorrect)
-			changeQuestion();
-		return currentQuestion.getQuestion();
-		
+		return currentQuestion.getQuestion();		
 	}
 	
 	public String[] reaction(String message) {
 		String[] answer;
+		if (currentQuestion == null)
+			changeQuestion();
 		switch(message) {
 			case "/help":
 				answer = new String[] {getHelp(), getQuestion()};
