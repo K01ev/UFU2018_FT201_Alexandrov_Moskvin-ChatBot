@@ -27,7 +27,7 @@ public class TelegramAPI extends TelegramLongPollingBot
 	
 	@Override
 	public String getBotUsername() {
-		return "QuestionAnswerBot";
+		return "";
 	}
 
 	@Override
@@ -38,6 +38,7 @@ public class TelegramAPI extends TelegramLongPollingBot
 			if (!chatBots.containsKey(chatID))
 				chatBots.put(chatID, chatBotFactory.getNewChatBot());
 			SendMessage sendMessageRequest = new SendMessage();
+			sendMessageRequest.setChatId(chatID);
 			
 			String[] answers = chatBots.get(chatID).reaction(message.getText());
 			for (String answer : answers)
@@ -55,6 +56,6 @@ public class TelegramAPI extends TelegramLongPollingBot
 
 	@Override
 	public String getBotToken() {
-		return "630155739:AAHjfvBPikiGsJOOG8K6vMloJQAHSdtqHmM";
+		return "";
 	}
 }
