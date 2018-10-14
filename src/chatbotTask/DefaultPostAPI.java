@@ -17,7 +17,6 @@ public class DefaultPostAPI implements IPostAPI{
 	private SOAPConnection connection;
 	
 	
-	
 	@Override
 	public String getPackageInfo(String trackNumber) {
 		try {
@@ -92,11 +91,11 @@ public class DefaultPostAPI implements IPostAPI{
         Transformer t= TransformerFactory.newInstance().newTransformer();
         StreamResult result = new StreamResult(sw);
         t.transform(sourceContent, result);
-        XmlParser parser = new XmlParser(sw.toString());
+        XpathResponseParser parser = new XpathResponseParser(sw.toString());
         List<String> historyTags = 
         		parser.getTagsInfo
-        			("//*[local-name()='historyRecord'][last()]//*[local-name()='OperationParameters']//*[local-name()='OperType']//*[local-name()='Name']",
-        			 "//*[local-name()='historyRecord'][last()]//*[local-name()='OperationParameters']//*[local-name()='OperDate']");
+        			("//ns3:historyRecord[last()]/ns3:OperationParameters/ns3:OperType/ns3:Name",
+        			 "//ns3:historyRecord[last()]//ns3:OperationParameters//ns3:OperDate");
         
         return String.join("\n", historyTags);
 	}
