@@ -9,7 +9,10 @@ public class StupidChatBotFactory implements IChatBotFactory {
 	
 	@Override
 	public IChatBot getNewChatBot() {
-		return new PostBot(new DefaultPostAPI());
+		return new ChatBot(new StupidQuestionsRepository(new QuestionAnswer[] {
+				new QuestionAnswer("Дважды два?", "4"),
+				new QuestionAnswer("Столица Дании?", "Копенгаген")
+		}));
 	}
 
 }

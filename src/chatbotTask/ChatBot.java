@@ -47,5 +47,12 @@ public class ChatBot implements IChatBot
 	public String getHelp() {
 		return Info.help;
 	}
+
+
+
+	@Override
+	public String getName() {
+		return "question_answer_bot";
+	}
 	
 }

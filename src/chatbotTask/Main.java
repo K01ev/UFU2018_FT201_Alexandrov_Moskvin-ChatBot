@@ -16,7 +16,11 @@ public class Main {
 		
 		TelegramBotsApi tApi = new TelegramBotsApi();
 		try {
-			tApi.registerBot(new TelegramAPI(new StupidChatBotFactory()));
+			tApi.registerBot(new TelegramAPI(
+					new SubbotChangerBotFactory(new IChatBotFactory[] {
+						new StupidChatBotFactory(),
+						new PostBotFactory()
+					}, "")));
 		} catch (TelegramApiRequestException e) {
 			e.printStackTrace();
 		}
