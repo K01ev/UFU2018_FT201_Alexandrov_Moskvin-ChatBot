@@ -1,8 +1,8 @@
 package chatbotTask;
 
-public class StupidChatBotFactory implements IChatBotFactory {
+public class ChatBotFactory implements IChatBotFactory {
 	
-	public StupidChatBotFactory() {
+	public ChatBotFactory() {
 		
 	}
 	

@@ -8,8 +8,8 @@ public class Info {
 			+ "\n"
 			+ "Данный бот будет задавать вопросы и проверять правильность ответов";
 	
-	public static String postBotHelp = help;
+	public static String postBotHelp = "Post bot help";
 	
-	public static String subbotChangerBotHelp = "";
+	public static String subbotChangerBotHelp = "Subbot changer bot Help";
 	
 }

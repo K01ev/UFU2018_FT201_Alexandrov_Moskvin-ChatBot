@@ -3,6 +3,7 @@ package chatbotTask;
 
 import java.util.HashMap;
 
+import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -11,22 +12,24 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class TelegramAPI extends TelegramLongPollingBot
 {
-	private final String token = "630155739:AAHjfvBPikiGsJOOG8K6vMloJQAHSdtqHmM";
-	private final String botUsername = "QuestionAnswerBot";
+	private String token;
+	private String username;
 	private HashMap<Long, IChatBot> chatBots;
 	private IChatBotFactory chatBotFactory;
 	
 	
-	public TelegramAPI(IChatBotFactory factory) {
+	public TelegramAPI(IChatBotFactory factory,
+					   String botToken, 
+					   String botUsername,
+		  			   DefaultBotOptions defBotOpt) 
+	{
+		super(defBotOpt);
+		token = botToken;
+		username  = botUsername;
 		chatBots = new HashMap<Long, IChatBot>();
 		chatBotFactory = factory;
 	}
 	
-	
-	@Override
-	public String getBotUsername() {
-		return botUsername;
-	}
 
 	@Override
 	public void onUpdateReceived(Update update) {
@@ -61,8 +64,17 @@ public class TelegramAPI extends TelegramLongPollingBot
 		return new SendMessage[0];
 	}
 
+
+	@Override
+	public String getBotUsername() {
+		return username;
+	}
+
+
 	@Override
 	public String getBotToken() {
 		return token;
 	}
+
+	
 }

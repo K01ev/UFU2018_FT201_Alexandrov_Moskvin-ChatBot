@@ -12,6 +12,8 @@ public class SubbotChangerBot  implements IChatBot
 		for (IChatBot subbot: subbots) {
 			subbotsDict.put(subbot.getName(), subbot);
 		}
+		if (!subbotsDict.containsKey(startSubbotName))
+			throw new IllegalArgumentException("There is no bot named " + startSubbotName);
 		currentSubbot = subbotsDict.get(startSubbotName);
 	}
 	

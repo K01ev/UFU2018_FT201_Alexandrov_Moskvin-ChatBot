@@ -13,8 +13,8 @@ class TelegramAPIShould {
 
 	@Test
 	void testCommutate() {
-		TelegramAPI tAPI = new TelegramAPI(new TestChatBotFactory());
-		
+		//TelegramAPI tAPI = new TelegramAPI(new TestChatBotFactory());
+		assertTrue(false);
 	}
 
 }
