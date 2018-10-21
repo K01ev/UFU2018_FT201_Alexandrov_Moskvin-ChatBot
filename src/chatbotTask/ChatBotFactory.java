@@ -2,17 +2,16 @@ package chatbotTask;
 
 public class ChatBotFactory implements IChatBotFactory {
 	
-	public ChatBotFactory() {
-		
+	private IQuestionGenerator generator;
+	
+	public ChatBotFactory(IQuestionGenerator generator) {
+		this.generator = generator;
 	}
 	
 	
 	@Override
 	public IChatBot getNewChatBot() {
-		return new ChatBot(new StupidQuestionsRepository(new QuestionAnswer[] {
-				new QuestionAnswer("Дважды два?", "4"),
-				new QuestionAnswer("Столица Дании?", "Копенгаген")
-		}));
+		return new ChatBot(generator);
 	}
 
 }

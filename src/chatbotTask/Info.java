@@ -12,4 +12,8 @@ public class Info {
 	
 	public static String subbotChangerBotHelp = "Subbot changer bot Help";
 	
+	public static QuestionAnswer[] questions = new QuestionAnswer[] {
+			new QuestionAnswer("Дважды два?", "4"),
+			new QuestionAnswer("Столица Дании?", "Копенгаген")
+	};
 }

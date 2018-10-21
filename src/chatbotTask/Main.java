@@ -17,10 +17,6 @@ public class Main {
 
 	// String path = System.getProperties("user.dir");
 	public static void main(String[] args) {
-		// System.setProperty("java.net.preferIPv4Stack" , "true");
-		// System.getProperties().put( "proxySet", "true" );
-		// System.getProperties().put( "socksProxyHost", "127.0.0.1" );
-		// System.getProperties().put( "socksProxyPort", "9150" );
 
 		ApiContextInitializer.init();
 
@@ -34,17 +30,20 @@ public class Main {
 			}
 			TelegramAPI bot = new TelegramAPI(
 					new SubbotChangerBotFactory(
-						new IChatBotFactory[] { 
-							new ChatBotFactory(),
-							new PostBotFactory() }, 
-						"question_answer_bot"),
-					token, 
-					botName,
-					botOptions);
+							new IChatBotFactory[] { 
+								new ChatBotFactory(new StupidQuestionsRepository(Info.questions)),
+								new PostBotFactory(new PostAPI()) }, 
+							"question_answer_bot"),
+						token, 
+						botName,
+						botOptions);
 			System.out.println("Start");
 			tApi.registerBot(bot);	
 		}
 		catch (TelegramApiRequestException e) {
+			e.printStackTrace();
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		finally {
