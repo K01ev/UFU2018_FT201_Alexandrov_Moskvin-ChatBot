@@ -31,8 +31,8 @@ public class Main {
 			TelegramAPI bot = new TelegramAPI(
 					new SubbotChangerBotFactory(
 							new IChatBotFactory[] { 
-								new ChatBotFactory(new StupidQuestionsRepository(Info.questions)),
-								new PostBotFactory(new PostAPI()) }, 
+								new ChatBotFactory(),
+								new PostBotFactory(new PostAPIFactory()) }, 
 							"question_answer_bot"),
 						token, 
 						botName,

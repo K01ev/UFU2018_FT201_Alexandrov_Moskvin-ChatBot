@@ -28,8 +28,9 @@ public class PostAPI extends WebServiceGatewaySupport implements IPostAPI{
 	    
 	    
 		setDefaultUri(url);
-		setMarshaller(marshaller());
-		setUnmarshaller(marshaller());
+		Jaxb2Marshaller marshaller = marshaller();
+		setMarshaller(marshaller);
+		setUnmarshaller(marshaller);
 	}
 
 	@Override
@@ -40,10 +41,11 @@ public class PostAPI extends WebServiceGatewaySupport implements IPostAPI{
 	public GetOperationHistoryResponse getOperationHistory(String trackNumber) {
 		GetOperationHistory request = createRequest(trackNumber);
 		
-		GetOperationHistoryResponse response = (GetOperationHistoryResponse) getWebServiceTemplate().marshalSendAndReceive(
+		Object rawResp = getWebServiceTemplate().marshalSendAndReceive(
 				request,
 				new SoapActionCallback(
 						"https://tracking.russianpost.ru/rtm34/getOperationHistory"));
+		GetOperationHistoryResponse response = (GetOperationHistoryResponse) rawResp;
 		return response;
 	}
 	

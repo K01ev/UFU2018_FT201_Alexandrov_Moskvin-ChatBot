@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -30,6 +31,13 @@ public class TelegramAPI extends TelegramLongPollingBot
 		chatBotFactory = factory;
 	}
 	
+	public TelegramAPI(IChatBotFactory factory,
+			   		   String botToken, 
+			   		   String botUsername) {
+		this(factory, botToken, botUsername,
+				ApiContext.getInstance(DefaultBotOptions.class));
+	}
+	
 
 	@Override
 	public void onUpdateReceived(Update update) {
@@ -47,7 +55,7 @@ public class TelegramAPI extends TelegramLongPollingBot
 		}
 	}
 	
-	private SendMessage[] commutate(Message message) {
+	public SendMessage[] commutate(Message message) {
 		if (message.hasText()) {
 			Long chatID = message.getChatId();
 			if (!chatBots.containsKey(chatID))

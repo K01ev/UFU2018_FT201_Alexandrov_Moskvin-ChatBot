@@ -2,15 +2,15 @@ package chatbotTask;
 
 public class PostBotFactory implements IChatBotFactory {
 	
-	private IPostAPI api;
+	private PostAPIFactory factory;
 	
-	public PostBotFactory(IPostAPI api) {
-		this.api = api;
+	public PostBotFactory(PostAPIFactory factory) {
+		this.factory = factory;
 	}
 
 	@Override
 	public IChatBot getNewChatBot() {
-		return new PostBot(api);
+		return new PostBot(factory.getNewPostAPI());
 	}
 
 }

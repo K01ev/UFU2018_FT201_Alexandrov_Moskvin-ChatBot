@@ -1,7 +1,6 @@
 package chatbotTask;
 
-public interface IQuestionGenerator { // генератор вопросов Хранилище вопросов или их генератор должен
-	//быть отделён от логики построения диалога.
+public interface IQuestionGenerator {
 	
 	public QuestionAnswer getQuestion();
 }
