@@ -1,12 +1,15 @@
 package chatbotTask;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
+
 public interface IChatBot {
 
 	public String getName();
 	
-	public String getHelp();
+	public MyMessage[] getHelp();
 	
-	public String[] reaction(String message);
+	public MyMessage[] reaction(MyMessage message);
 	
 	//public String repeatLastMessage();
 }

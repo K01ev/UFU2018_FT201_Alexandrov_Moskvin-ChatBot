@@ -1,5 +1,8 @@
 package chatbotTask;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
+
 public class ChatBot implements IChatBot
 {
 	
@@ -29,13 +32,13 @@ public class ChatBot implements IChatBot
 		return currentQuestion.getQuestion();		
 	}
 	
-	public String[] reaction(String message) {
+	private String[] reaction(String message) {
 		String[] answer;
 		if (currentQuestion == null)
 			changeQuestion();
 		switch(message) {
 			case "/help":
-				answer = new String[] {getHelp(), getQuestion()};
+				answer = new String[] {getHelpStr(), getQuestion()};
 				break;
 			default:
 				answer = new String[] {checkAnswer(message), getQuestion()};
@@ -44,7 +47,11 @@ public class ChatBot implements IChatBot
 		return answer;
 	}
 
-	public String getHelp() {
+	public MyMessage[] getHelp() {
+		return new MyMessage[] {new MyMessage(getHelpStr())};
+	}
+	
+	public String getHelpStr() {
 		return Info.help;
 	}
 
@@ -53,6 +60,22 @@ public class ChatBot implements IChatBot
 	@Override
 	public String getName() {
 		return "question_answer_bot";
+	}
+
+
+
+	@Override
+	public MyMessage[] reaction(MyMessage message) {
+		if (message.hasText()) {
+			String[] strAnswers = reaction(message.getText());
+			MyMessage[] answers = new MyMessage[strAnswers.length];
+			for (int i = 0; i < answers.length; i++) {
+				answers[i] = new MyMessage();
+				answers[i].setText(strAnswers[i]);
+			}
+			return answers;
+		}
+		return new MyMessage[0];
 	}
 	
 }

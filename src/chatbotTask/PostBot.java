@@ -1,5 +1,8 @@
 package chatbotTask;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
+
 public class PostBot implements IChatBot{
 	
 	private IPostAPI postApi;
@@ -8,11 +11,10 @@ public class PostBot implements IChatBot{
 		this.postApi = postApi;
 	}
 
-	@Override
-	public String[] reaction(String message) {
+	private String[] reaction(String message) {
 		switch(message) {
 		case "/help":
-			return new String[] {getHelp()};
+			return new String[] {getHelpStr()};
 		default:
 			return new String[] {postApi.getPackageInfo(message) };
 		}
@@ -24,8 +26,26 @@ public class PostBot implements IChatBot{
 	}
 
 	@Override
-	public String getHelp() {
+	public MyMessage[] getHelp() {
+		return new MyMessage[] {new MyMessage(getHelpStr())};
+	}
+	
+	
+	public String getHelpStr() {
 		return Info.postBotHelp;
 	}
 
+	@Override
+	public MyMessage[] reaction(MyMessage message) {
+		if (message.hasText()) {
+			String[] strAnswers = reaction(message.getText());
+			MyMessage[] answers = new MyMessage[strAnswers.length];
+			for (int i = 0; i < answers.length; i++) {
+				answers[i] = new MyMessage();
+				answers[i].setText(strAnswers[i]);
+			}
+			return answers;
+		}
+		return new MyMessage[0];
+	}
 }

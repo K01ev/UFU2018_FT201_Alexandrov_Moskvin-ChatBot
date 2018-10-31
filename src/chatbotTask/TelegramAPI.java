@@ -2,6 +2,7 @@ package chatbotTask;
 
 
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -15,7 +16,7 @@ public class TelegramAPI extends TelegramLongPollingBot
 {
 	private String token;
 	private String username;
-	private HashMap<Long, IChatBot> chatBots;
+	private ConcurrentHashMap<Long, IChatBot> chatBots;
 	private IChatBotFactory chatBotFactory;
 	
 	
@@ -27,7 +28,7 @@ public class TelegramAPI extends TelegramLongPollingBot
 		super(defBotOpt);
 		token = botToken;
 		username  = botUsername;
-		chatBots = new HashMap<Long, IChatBot>();
+		chatBots = new ConcurrentHashMap<Long, IChatBot>();
 		chatBotFactory = factory;
 	}
 	
@@ -56,20 +57,18 @@ public class TelegramAPI extends TelegramLongPollingBot
 	}
 	
 	public SendMessage[] commutate(Message message) {
-		if (message.hasText()) {
-			Long chatID = message.getChatId();
-			if (!chatBots.containsKey(chatID))
-				chatBots.put(chatID, chatBotFactory.getNewChatBot());
-			String[] answers = chatBots.get(chatID).reaction(message.getText());
-			SendMessage[] answerMessages = new SendMessage[answers.length];
-			for (int i = 0; i < answers.length; i++) {
-				answerMessages[i] = new SendMessage();
-				answerMessages[i].setChatId(chatID);
-				answerMessages[i].setText(answers[i]);
-			}
-			return answerMessages;
+		Long chatID = message.getChatId();
+		chatBots.putIfAbsent(chatID, chatBotFactory.getNewChatBot());
+		IChatBot bot = chatBots.get(chatID);
+		MyMessage sendM = MyMessage.TelegrammMessageToMyMessage(message);
+		MyMessage[] answers = bot.reaction(sendM);
+		
+		SendMessage[] sMessages = new SendMessage[answers.length];
+		for (int i = 0; i < answers.length; i++) {
+			sMessages[i] = MyMessage.MyMessageToTelegrammSendMessage(answers[i]);
+			sMessages[i].setChatId(chatID);
 		}
-		return new SendMessage[0];
+		return sMessages;
 	}
 
 

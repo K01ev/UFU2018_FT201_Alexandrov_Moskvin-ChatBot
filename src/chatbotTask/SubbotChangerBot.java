@@ -2,36 +2,43 @@ package chatbotTask;
 
 import java.util.HashMap;
 
-public class SubbotChangerBot  implements IChatBot
-{
+import org.apache.commons.lang.ArrayUtils;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
+
+public class SubbotChangerBot implements IChatBot {
 	private HashMap<String, IChatBot> subbotsDict;
 	private IChatBot currentSubbot;
-	
+
 	public SubbotChangerBot(IChatBot[] subbots, String startSubbotName) {
 		subbotsDict = new HashMap<String, IChatBot>();
-		for (IChatBot subbot: subbots) {
+		for (IChatBot subbot : subbots) {
 			subbotsDict.put(subbot.getName(), subbot);
 		}
 		if (!subbotsDict.containsKey(startSubbotName))
 			throw new IllegalArgumentException("There is no bot named " + startSubbotName);
 		currentSubbot = subbotsDict.get(startSubbotName);
 	}
-	
+
 	@Override
-	public String[] reaction(String message) {
-		String firstWord;
-		if (message.contains(" "))
-			firstWord = message.substring(0, message.indexOf(" "));
-		else 
-			firstWord = message;
-		switch(firstWord) {
+	public MyMessage[] reaction(MyMessage message) {
+		if (message.hasText()) {
+			String text = message.getText();
+			String firstWord;
+			if (text.contains(" "))
+				firstWord = text.substring(0, text.indexOf(" "));
+			else
+				firstWord = text;
+			switch (firstWord) {
 			case "/changeTo":
-				return new String[] {changeSubbotTo(message)};
+				return new MyMessage[] { changeSubbotTo(message) };
 			case "/help":
-				return new String[] {getHelp()};
+				return (MyMessage[]) ArrayUtils.addAll(getHelp(), currentSubbot.getHelp());
 			default:
 				return currentSubbot.reaction(message);
+			}
 		}
+		return currentSubbot.reaction(message);
 	}
 
 	@Override
@@ -40,28 +47,34 @@ public class SubbotChangerBot  implements IChatBot
 	}
 
 	@Override
-	public String getHelp() {
-		return Info.subbotChangerBotHelp + currentSubbot.getHelp();
+	public MyMessage[] getHelp() {
+		return new MyMessage[] {new MyMessage(Info.subbotChangerBotHelp)};
 	}
-	
-	private String changeSubbotTo(String command) {
-		String[] words = command.split("[\n\t\r ]");
-		if ((words.length >= 2) && (subbotsDict.containsKey(words[1]))) 
-		{
-			currentSubbot = subbotsDict.get(words[1]);
-			return String.format("Bot has been changed on {}", words[1]);
+
+	private MyMessage changeSubbotTo(MyMessage message) {
+		if (message.hasText()) {
+			String command = message.getText(); 
+			String[] words = command.split("[\n\t\r ]");
+			if ((words.length >= 2) && (subbotsDict.containsKey(words[1]))) {
+				currentSubbot = subbotsDict.get(words[1]);
+				MyMessage sMessage = new MyMessage();				
+				sMessage.setText(String.format("Bot has been changed on %s", words[1]));
+				return sMessage;
+			} else {
+				MyMessage sMessage = new MyMessage();				
+				sMessage.setText("Undefined bot name.\n" + 
+								"These bot names are available:\n" + getSubbotsNameList());
+				return sMessage;
+			}
 		}
-		else
-		{
-			return "Undefined bot name.\n"
-					+ "These bot names are available:\n" + getSubbotsNameList();
-		}
+		return new MyMessage();
+		
 	}
-	
+
 	private String getSubbotsNameList() {
 		StringBuilder subbotsNameList = new StringBuilder();
 		for (String subbotName : subbotsDict.keySet()) {
-			subbotsNameList.append(String.format("\t{}\n", subbotName));
+			subbotsNameList.append(String.format("\t%s\n", subbotName));
 		}
 		return subbotsNameList.toString();
 	}
