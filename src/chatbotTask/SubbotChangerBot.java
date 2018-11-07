@@ -33,7 +33,7 @@ public class SubbotChangerBot implements IChatBot {
 			case "/changeTo":
 				return new MyMessage[] { changeSubbotTo(message) };
 			case "/help":
-				return (MyMessage[]) ArrayUtils.addAll(getHelp(), currentSubbot.getHelp());
+				return getHelp();
 			default:
 				return currentSubbot.reaction(message);
 			}
@@ -48,7 +48,8 @@ public class SubbotChangerBot implements IChatBot {
 
 	@Override
 	public MyMessage[] getHelp() {
-		return new MyMessage[] {new MyMessage(Info.subbotChangerBotHelp)};
+		return (MyMessage[]) ArrayUtils.add(currentSubbot.getHelp(), 
+					new MyMessage(Info.subbotChangerBotHelp));
 	}
 
 	private MyMessage changeSubbotTo(MyMessage message) {

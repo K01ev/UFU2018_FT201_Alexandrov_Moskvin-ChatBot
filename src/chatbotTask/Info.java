@@ -10,7 +10,8 @@ public class Info {
 	
 	public static String postBotHelp = "Post bot help";
 	
-	public static String subbotChangerBotHelp = "Subbot changer bot Help";
+	public static String subbotChangerBotHelp = "Subbot changer bot Help\n" +
+				"command /changeTo <bot_name> - switch bot on ";
 	
 	public static QuestionAnswer[] questions = new QuestionAnswer[] {
 			new QuestionAnswer("Дважды два?", "4"),
