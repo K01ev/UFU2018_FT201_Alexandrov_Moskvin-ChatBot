@@ -1,15 +1,14 @@
 package chatbotTask.tests;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-import org.telegram.telegrambots.meta.api.objects.Message;
 
 import chatbotTask.ChatBot;
 import chatbotTask.IQuestionGenerator;
-import chatbotTask.QuestionAnswer;
 import chatbotTask.Info;
 import chatbotTask.MyMessage;
+import chatbotTask.QuestionAnswer;
 
 class ChatBotShould {
 

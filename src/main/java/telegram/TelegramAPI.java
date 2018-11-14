@@ -1,7 +1,6 @@
-package chatbotTask;
+package telegram;
 
 
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -11,6 +10,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import chatbotTask.IChatBot;
+import chatbotTask.IChatBotFactory;
+import chatbotTask.MyMessage;
 
 public class TelegramAPI extends TelegramLongPollingBot
 {
@@ -60,12 +63,12 @@ public class TelegramAPI extends TelegramLongPollingBot
 		Long chatID = message.getChatId();
 		chatBots.putIfAbsent(chatID, chatBotFactory.getNewChatBot());
 		IChatBot bot = chatBots.get(chatID);
-		MyMessage sendM = MyMessage.TelegrammMessageToMyMessage(message);
+		MyMessage sendM = Converter.TelegrammMessageToMyMessage(message);
 		MyMessage[] answers = bot.reaction(sendM);
 		
 		SendMessage[] sMessages = new SendMessage[answers.length];
 		for (int i = 0; i < answers.length; i++) {
-			sMessages[i] = MyMessage.MyMessageToTelegrammSendMessage(answers[i]);
+			sMessages[i] = Converter.MyMessageToTelegrammSendMessage(answers[i]);
 			sMessages[i].setChatId(chatID);
 		}
 		return sMessages;

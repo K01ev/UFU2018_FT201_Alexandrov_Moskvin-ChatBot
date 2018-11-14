@@ -1,14 +1,16 @@
-package chatbotTask.tests;
+package telegram.tests;
 
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import chatbotTask.TelegramAPI;
-import static org.mockito.Mockito.*;
+import telegram.TelegramAPI;
+import chatbotTask.tests.TestChatBotFactory;
 
 class TelegramAPIShould {
 	

@@ -8,10 +8,12 @@ import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
+import telegram.TelegramAPI;
+
 public class Main {
 	private static boolean needProxy = true;
-	private static String proxyHost = "134.249.142.122";
-	private static int proxyPort = 38024;
+	private static String proxyHost = "194.44.53.30";
+	private static int proxyPort = 56827;
 	private static String botName = System.getenv("MY_BOT_NAME");
 	private static String token = System.getenv("MY_BOT_TOKEN");
 
@@ -34,7 +36,7 @@ public class Main {
 								new ChatBotFactory(),
 								new PostBotFactory(new PostAPIFactory())
 								}, 
-							"question_answer_bot"),
+							"post_bot"),
 						token, 
 						botName,
 						botOptions);

@@ -1,8 +1,5 @@
 package chatbotTask;
 
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
-
 public class PostBot implements IChatBot{
 	
 	private IPostAPI postApi;

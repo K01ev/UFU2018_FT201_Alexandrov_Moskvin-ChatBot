@@ -11,12 +11,18 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.5.RELEASE</version>
 	</parent>
-
+	
 	<properties>
 		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
+	<dependency>
+      <groupId>com.sun.xml.ws</groupId>
+      <artifactId>jaxws-rt</artifactId>
+      <version>2.2.8</version>
+    </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
@@ -31,7 +37,7 @@
 			<artifactId>jaxb2-basics-annotate</artifactId>
 			<version>0.6.0</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -42,71 +48,29 @@
 
 	<build>
 
-		<sourceDirectory>src</sourceDirectory>
-		<resources>
-			<resource>
-				<directory>src</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-		</resources>
-
 		<plugins>
 
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
+                <groupId>org.jvnet.jax-ws-commons</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
 
-			<plugin>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-codegen-plugin</artifactId>
-				<version>3.0.5</version>
-				<executions>
-					<execution>
-						<id>generate-sources</id>
-						<phase>generate-sources</phase>
-						<configuration>
-							<sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
-							<wsdlOptions>
-								<wsdlOption>
-									<wsdl>https://tracking.russianpost.ru/rtm34?wsdl</wsdl>
-									<bindingFiles>
-										<bindingFile>resources/bind.xjb
-										</bindingFile>
-									</bindingFiles>
-									<extraargs>
-										<extraarg>-xjc-Xannotate</extraarg>
-									</extraargs>
-								</wsdlOption>
-							</wsdlOptions>
-						</configuration>
-						<goals>
-							<goal>wsdl2java</goal>
-						</goals>
-					</execution>
-				</executions>
-				<dependencies>
+                        <configuration>
+                            <wsdlUrls>
+                                <wsdlUrl>https://tracking.russianpost.ru/rtm34?wsdl</wsdlUrl>
+                            </wsdlUrls>
+                            <extension>true</extension>
+                            <args></args>
+                        </configuration>
+                    </execution>
+                </executions>
 
-					<dependency>
-						<groupId>org.apache.cxf.xjcplugins</groupId>
-						<artifactId>cxf-xjc-ts</artifactId>
-						<version>3.0.5</version>
-					</dependency>
-
-					<dependency>
-						<groupId>org.jvnet.jaxb2_commons</groupId>
-						<artifactId>jaxb2-basics-annotate</artifactId>
-						<version>0.6.0</version>
-					</dependency>
-
-				</dependencies>
-			</plugin>
+            </plugin>
 
 		</plugins>
 	</build>

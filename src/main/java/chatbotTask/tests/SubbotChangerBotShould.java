@@ -1,7 +1,6 @@
 package chatbotTask.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -11,14 +10,18 @@ import chatbotTask.MyMessage;
 import chatbotTask.SubbotChangerBot;
 
 class SubbotChangerBotShould {
+	
+	IChatBot test1 = new TestChatBot(
+			"testBot1", new MyMessage[] {new MyMessage("Help1")},
+			new MyMessage[] {new MyMessage("Answer1")});
+	IChatBot test2 = new TestChatBot(
+			"testBot2", new MyMessage[] {new MyMessage("help 2 test bot")},
+			new MyMessage[] {new MyMessage("Answer2")});
 
 	@Test
 	void testCorrectHelpOnChange() {
-		IChatBot test1 = new TestChatBot();
-		IChatBot test2= new TestChatBot2();
-		SubbotChangerBot changer = new SubbotChangerBot(new IChatBot[] {
-													test1,
-													test2}, "testBot1");
+		SubbotChangerBot changer = 
+				new SubbotChangerBot(new IChatBot[] {test1, test2}, "testBot1");
 		MyMessage[] helps = changer.getHelp();
 		assertEquals(2, helps.length);
 		assertEquals(test1.getHelp()[0].getText(), helps[0].getText());
@@ -34,34 +37,28 @@ class SubbotChangerBotShould {
 	@Test
 	void testCorrectChange() 
 	{
-		IChatBot test1 = new TestChatBot();
-		IChatBot test2= new TestChatBot2();
-		SubbotChangerBot changer = new SubbotChangerBot(new IChatBot[] {
-													test1,
-													test2}, "testBot1");
+		SubbotChangerBot changer = 
+				new SubbotChangerBot(new IChatBot[] {test1, test2}, "testBot1");
 		MyMessage[] answers = changer.reaction(new MyMessage("Hello T1"));
 		assertEquals(1, answers.length);
-		assertEquals("Hello T1", answers[0].getText());
+		assertEquals("Answer1", answers[0].getText());
 		
 		answers = changer.reaction(new MyMessage("/changeTo " + test2.getName()));
 		assertEquals("Bot has been changed on "+test2.getName() ,answers[0].getText());
 		
 		answers = changer.reaction(new MyMessage("Hello T2"));
 		assertEquals(1, answers.length);
-		assertEquals("Hello T2Answer", answers[0].getText());
+		assertEquals("Answer2", answers[0].getText());
 		
 	}
 	
 	@Test
 	void testIncorrectChange() {
-		IChatBot test1 = new TestChatBot();
-		IChatBot test2= new TestChatBot2();
-		SubbotChangerBot changer = new SubbotChangerBot(new IChatBot[] {
-													test1,
-													test2}, "testBot1");
+		SubbotChangerBot changer = 
+				new SubbotChangerBot(new IChatBot[] {test1,test2}, "testBot1");
 		MyMessage[] answers = changer.reaction(new MyMessage("Hello T1"));
 		assertEquals(1, answers.length);
-		assertEquals("Hello T1", answers[0].getText());
+		assertEquals("Answer1", answers[0].getText());
 		
 		answers = changer.reaction(new MyMessage("/changeTo SMTHWRONG"));
 		assertEquals(1, answers.length);
@@ -73,30 +70,9 @@ class SubbotChangerBotShould {
 		
 		answers = changer.reaction(new MyMessage("Hello T2"));
 		assertEquals(1, answers.length);
-		assertEquals("Hello T2", answers[0].getText());
+		assertEquals("Answer1", answers[0].getText());
 		
 
 	}
 
 }
-
-class TestChatBot2 implements IChatBot
-{
-
-	@Override
-	public String getName() {
-		return "testBot2";
-	}
-
-	@Override
-	public MyMessage[] getHelp() {
-		return new MyMessage[] {new MyMessage("help 2 test bot")};
-	}
-
-	@Override
-	public MyMessage[] reaction(MyMessage message) {
-		return new MyMessage[] {new MyMessage(message.getText() + "Answer")};
-	}
-	
-}
-

@@ -3,8 +3,6 @@ package chatbotTask;
 import java.util.HashMap;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 
 public class SubbotChangerBot implements IChatBot {
 	private HashMap<String, IChatBot> subbotsDict;

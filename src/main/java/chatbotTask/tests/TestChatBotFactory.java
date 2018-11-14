@@ -3,7 +3,7 @@ package chatbotTask.tests;
 import chatbotTask.IChatBot;
 import chatbotTask.IChatBotFactory;
 
-class TestChatBotFactory implements IChatBotFactory
+public class TestChatBotFactory implements IChatBotFactory
 {
 
 	@Override
