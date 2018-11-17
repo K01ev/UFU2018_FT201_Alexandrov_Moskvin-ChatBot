@@ -1,5 +1,5 @@
 package chatbotTask;
 
 public interface IPostAPI {
-	public String getPackageInfo(String trackNumber);
+	public PostOperation[] getFullHistory(String trackNumber);
 }

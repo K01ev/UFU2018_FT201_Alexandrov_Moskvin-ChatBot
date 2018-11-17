@@ -31,12 +31,7 @@ public class Main {
 				botOptions.setRequestConfig(requestConfig);
 			}
 			TelegramAPI bot = new TelegramAPI(
-					new SubbotChangerBotFactory(
-							new IChatBotFactory[] { 
-								new ChatBotFactory(),
-								new PostBotFactory(new PostAPIFactory())
-								}, 
-							"post_bot"),
+					new PostBotFactory(new PostAPIFactory()),
 						token, 
 						botName,
 						botOptions);

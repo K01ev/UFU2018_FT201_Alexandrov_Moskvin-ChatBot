@@ -2,7 +2,6 @@ package chatbotTask;
 
 import java.util.List;
 
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.JAXBIntrospector;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPConstants;
@@ -16,6 +15,7 @@ import org.russianpost.operationhistory.data.OperationHistoryRecord;
 import org.russianpost.operationhistory.data.OperationHistoryRequest;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
+import org.springframework.ws.soap.client.SoapFaultClientException;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 
@@ -25,7 +25,7 @@ public class PostAPI extends WebServiceGatewaySupport implements IPostAPI {
 	public static String postLogin = System.getenv("POST_LOGIN");
 	public static String postPassword = System.getenv("POST_PASS");
 	
-	public PostAPI() throws SOAPException, JAXBException {
+	public PostAPI() throws SOAPException {
 		MessageFactory msgFactory;
 		msgFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
 		SaajSoapMessageFactory saajSoapMessageFactory = new SaajSoapMessageFactory(msgFactory);
@@ -36,11 +36,6 @@ public class PostAPI extends WebServiceGatewaySupport implements IPostAPI {
 		Jaxb2Marshaller marshaller = marshaller();
 		setMarshaller(marshaller);
 		setUnmarshaller(marshaller);
-	}
-
-	@Override
-	public String getPackageInfo(String trackNumber) {
-		return getLastOperationInfo(getOperationHistory(trackNumber));
 	}
 	
 	public GetOperationHistoryResponse getOperationHistory(String trackNumber) {
@@ -54,14 +49,6 @@ public class PostAPI extends WebServiceGatewaySupport implements IPostAPI {
 		                	      "https://tracking.russianpost.ru/rtm34/getOperationHistory")));        
 		GetOperationHistoryResponse response = (GetOperationHistoryResponse) rawResp;
 		return response;
-	}
-	
-	public String getLastOperationInfo(GetOperationHistoryResponse response) {
-		List<OperationHistoryRecord> operations = response.getOperationHistoryData().getHistoryRecord();
-		OperationHistoryRecord lastOperation = operations.get(operations.size() - 1);
-		String operType = lastOperation.getOperationParameters().getOperType().getName();
-		String operDate = lastOperation.getOperationParameters().getOperDate().toString();
-		return operType + "\n" + operDate;
 	}
 	
 	public Jaxb2Marshaller marshaller() {
@@ -83,6 +70,30 @@ public class PostAPI extends WebServiceGatewaySupport implements IPostAPI {
 		req.setLanguage("RUS");
 		request.setOperationHistoryRequest(req);
 		return request;
+	}
+	
+	public PostOperation[] historyRecordsToPostOperations(List<OperationHistoryRecord> operations) {
+		PostOperation[] result = new PostOperation[operations.size()];
+		
+		for (int i = 0; i < result.length; i++) {
+			OperationHistoryRecord record = operations.get(i);
+			String operType = record.getOperationParameters().getOperType().getName();
+			String operDate = record.getOperationParameters().getOperDate().toString();
+			result[i] = new PostOperation(operType, operDate);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public PostOperation[] getFullHistory(String trackNumber) {
+		try {
+		return historyRecordsToPostOperations(
+				getOperationHistory(trackNumber).getOperationHistoryData().getHistoryRecord());
+		}
+		catch (SoapFaultClientException e) {
+			return null;
+		}
 	}
 
 }

@@ -21,12 +21,7 @@ public class SubbotChangerBot implements IChatBot {
 	@Override
 	public MyMessage[] reaction(MyMessage message) {
 		if (message.hasText()) {
-			String text = message.getText();
-			String firstWord;
-			if (text.contains(" "))
-				firstWord = text.substring(0, text.indexOf(" "));
-			else
-				firstWord = text;
+			String firstWord = getFirstWord(message);
 			switch (firstWord) {
 			case "/changeTo":
 				return new MyMessage[] { changeSubbotTo(message) };
