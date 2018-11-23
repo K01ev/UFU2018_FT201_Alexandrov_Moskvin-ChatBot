@@ -10,7 +10,7 @@ public class PostBotFactory implements IChatBotFactory {
 
 	@Override
 	public IChatBot getNewChatBot() {
-		return new PostBot(factory.getNewPostAPI());
+		return new PostBot(factory.getNewPostAPI(), new IndexAPI());
 	}
 
 }

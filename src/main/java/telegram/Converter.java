@@ -3,6 +3,7 @@ package telegram;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -42,5 +43,16 @@ public class Converter {
 		}
 		
 		return sMessage;
+	}
+	
+	public static SendLocation MyMessageToSendLocation(MyMessage message) {
+		if (message.hasCoordinates()) {
+			SendLocation sendLocation = new SendLocation();
+			Float[] location = message.getCoordinates();
+			sendLocation.setLatitude(location[0]);
+			sendLocation.setLongitude(location[1]);
+			return sendLocation;
+		}
+		return null;
 	}
 }

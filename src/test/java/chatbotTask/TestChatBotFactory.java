@@ -1,4 +1,4 @@
-package test.chatbotTask;
+package chatbotTask;
 
 import chatbotTask.IChatBot;
 import chatbotTask.IChatBotFactory;

@@ -1,4 +1,4 @@
-package test.telegram;
+package telegram;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import test.chatbotTask.TestChatBotFactory;
+import chatbotTask.TestChatBotFactory;
 import telegram.TelegramAPI;
 
 class TelegramAPIShould {
@@ -33,9 +33,9 @@ class TelegramAPIShould {
 		TelegramAPI tAPI = new TelegramAPI(new TestChatBotFactory(), "", "");
 		
 		Message in = mockMessage("123", 1l);
-		SendMessage[] result = tAPI.commutate(in);
+		TelegramMessage[] result = tAPI.commutate(in);
 		assertEquals(1, result.length);
-		SendMessage out = result[0];
+		SendMessage out = result[0].getSendMessage();
 		checkParams(out, "123", "1");
 	}
 	
@@ -46,8 +46,8 @@ class TelegramAPIShould {
 		Message user1Message = mockMessage("123", 1l);
 		Message user2Message = mockMessage("456", 2l);
 		
-		checkParams(tAPI.commutate(user1Message)[0], "123", "1");
-		checkParams(tAPI.commutate(user2Message)[0], "456", "2");
+		checkParams(tAPI.commutate(user1Message)[0].getSendMessage(), "123", "1");
+		checkParams(tAPI.commutate(user2Message)[0].getSendMessage(), "456", "2");
 	}
 
 }

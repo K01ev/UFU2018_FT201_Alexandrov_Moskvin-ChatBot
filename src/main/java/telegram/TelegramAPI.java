@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.ApiContext;
+import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -48,11 +49,16 @@ public class TelegramAPI extends TelegramLongPollingBot
 		if (update.hasMessage()) 
 		{	
 			System.out.println(update.getMessage().getChatId());
-			SendMessage[] answerMessages = commutate(update.getMessage());
-			for (SendMessage answer : answerMessages)
+			TelegramMessage[] answerMessages = commutate(update.getMessage());
+			for (TelegramMessage answer : answerMessages)
 			{
 				try {
-					execute(answer);
+					if (answer.hasSendMessage()) {
+						execute(answer.getSendMessage());
+					}
+					if (answer.hasSendLocation()) {
+						execute(answer.getSendLocation());
+					}
 				} catch (TelegramApiException e) {
 					e.printStackTrace();
 				}
@@ -60,19 +66,26 @@ public class TelegramAPI extends TelegramLongPollingBot
 		}
 	}
 	
-	public SendMessage[] commutate(Message message) {
+	public TelegramMessage[] commutate(Message message) {
 		Long chatID = message.getChatId();
 		chatBots.putIfAbsent(chatID, chatBotFactory.getNewChatBot());
 		IChatBot bot = chatBots.get(chatID);
 		MyMessage sendM = Converter.TelegrammMessageToMyMessage(message);
 		MyMessage[] answers = bot.reaction(sendM);
 		
-		SendMessage[] sMessages = new SendMessage[answers.length];
+		TelegramMessage[] tMessages = new TelegramMessage[answers.length];
 		for (int i = 0; i < answers.length; i++) {
-			sMessages[i] = Converter.MyMessageToTelegrammSendMessage(answers[i]);
-			sMessages[i].setChatId(chatID);
+			tMessages[i] = new TelegramMessage();
+			SendMessage sendMessage = Converter.MyMessageToTelegrammSendMessage(answers[i]);
+			sendMessage.setChatId(chatID);
+			tMessages[i].setSendMessage(sendMessage);
+			SendLocation sendLocation = Converter.MyMessageToSendLocation(answers[i]);
+			if (sendLocation != null) {
+				sendLocation.setChatId(chatID);
+				tMessages[i].setSendLocation(sendLocation);
+			}
 		}
-		return sMessages;
+		return tMessages;
 	}
 
 

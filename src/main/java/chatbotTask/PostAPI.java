@@ -78,8 +78,11 @@ public class PostAPI extends WebServiceGatewaySupport implements IPostAPI {
 		for (int i = 0; i < result.length; i++) {
 			OperationHistoryRecord record = operations.get(i);
 			String operType = record.getOperationParameters().getOperType().getName();
+			String operAttr = record.getOperationParameters().getOperAttr().getName();
 			String operDate = record.getOperationParameters().getOperDate().toString();
-			result[i] = new PostOperation(operType, operDate);
+			String operAddr = record.getAddressParameters().getOperationAddress().getDescription();
+			String operIndex = record.getAddressParameters().getOperationAddress().getIndex();
+			result[i] = new PostOperation(operType, operDate, operAddr, operIndex, operAttr);
 		}
 		
 		return result;
@@ -92,7 +95,7 @@ public class PostAPI extends WebServiceGatewaySupport implements IPostAPI {
 				getOperationHistory(trackNumber).getOperationHistoryData().getHistoryRecord());
 		}
 		catch (SoapFaultClientException e) {
-			System.out.println(e);
+			e.printStackTrace();
 			return null;
 		}
 	}

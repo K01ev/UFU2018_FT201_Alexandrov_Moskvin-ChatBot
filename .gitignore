@@ -1,7 +1,5 @@
 *.[oa]
 *.class
-.project
-.classpath
 .settings/
 /bin/
 /target/
