@@ -1,4 +1,4 @@
-package telegram;
+package test.telegram;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import chatbotTask.TestChatBotFactory;
+import test.chatbotTask.TestChatBotFactory;
 import telegram.TelegramAPI;
 
 class TelegramAPIShould {

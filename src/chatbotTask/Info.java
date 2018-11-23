@@ -22,4 +22,6 @@ public class Info {
 			new QuestionAnswer("Дважды два?", "4"),
 			new QuestionAnswer("Столица Дании?", "Копенгаген")
 	};
+
+			
 }

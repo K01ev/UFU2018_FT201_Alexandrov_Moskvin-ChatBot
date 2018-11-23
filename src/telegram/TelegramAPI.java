@@ -47,6 +47,7 @@ public class TelegramAPI extends TelegramLongPollingBot
 	public void onUpdateReceived(Update update) {
 		if (update.hasMessage()) 
 		{	
+			System.out.println(update.getMessage().getChatId());
 			SendMessage[] answerMessages = commutate(update.getMessage());
 			for (SendMessage answer : answerMessages)
 			{

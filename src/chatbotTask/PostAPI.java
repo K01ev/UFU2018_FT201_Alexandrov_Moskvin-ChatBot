@@ -92,6 +92,7 @@ public class PostAPI extends WebServiceGatewaySupport implements IPostAPI {
 				getOperationHistory(trackNumber).getOperationHistoryData().getHistoryRecord());
 		}
 		catch (SoapFaultClientException e) {
+			System.out.println(e);
 			return null;
 		}
 	}

@@ -9,9 +9,7 @@ public class ChatBot implements IChatBot
 	public ChatBot(IQuestionGenerator generator) {
 		qGenerator = generator;
 	}
-		
-	
-	
+			
 	private void changeQuestion() {
 		currentQuestion = qGenerator.getQuestion();
 	}

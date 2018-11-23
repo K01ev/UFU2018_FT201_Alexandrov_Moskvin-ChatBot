@@ -1,4 +1,4 @@
-package chatbotTask;
+package telegram;
 
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
@@ -8,7 +8,8 @@ import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
-import telegram.TelegramAPI;
+import chatbotTask.PostAPIFactory;
+import chatbotTask.PostBotFactory;
 
 public class Main {
 	private static boolean needProxy = true;

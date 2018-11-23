@@ -1,4 +1,4 @@
-package chatbotTask;
+package test.chatbotTask;
 
 import chatbotTask.IChatBot;
 import chatbotTask.MyMessage;
