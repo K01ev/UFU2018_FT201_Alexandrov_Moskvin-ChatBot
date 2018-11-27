@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import org.apache.commons.lang.ArrayUtils;
 
+import containers.MyMessage;
+
 public class SubbotChangerBot implements IChatBot {
 	private HashMap<String, IChatBot> subbotsDict;
 	private IChatBot currentSubbot;

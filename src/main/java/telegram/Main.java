@@ -13,8 +13,8 @@ import chatbotTask.PostBotFactory;
 
 public class Main {
 	private static boolean needProxy = true;
-	private static String proxyHost = "213.100.249.63";
-	private static int proxyPort = 37719;
+	private static String proxyHost = "92.46.109.74";
+	private static int proxyPort = 42683;
 	private static String botName = System.getenv("MY_BOT_NAME");
 	private static String token = System.getenv("MY_BOT_TOKEN");
 

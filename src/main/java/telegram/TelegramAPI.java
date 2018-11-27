@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import chatbotTask.IChatBot;
 import chatbotTask.IChatBotFactory;
-import chatbotTask.MyMessage;
+import containers.MyMessage;
 
 public class TelegramAPI extends TelegramLongPollingBot
 {

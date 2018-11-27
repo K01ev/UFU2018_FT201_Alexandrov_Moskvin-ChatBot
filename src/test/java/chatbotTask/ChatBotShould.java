@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import chatbotTask.ChatBot;
 import chatbotTask.IQuestionGenerator;
 import chatbotTask.Info;
-import chatbotTask.MyMessage;
 import chatbotTask.QuestionAnswer;
+import containers.MyMessage;
 
 class ChatBotShould {
 

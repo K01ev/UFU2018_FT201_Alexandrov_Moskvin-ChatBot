@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import containers.Location;
+import containers.MyMessage;
+
 public class PostBot implements IChatBot{
 	
 	enum State { INFO, FULLINFO, WAITING }
@@ -172,7 +175,6 @@ public class PostBot implements IChatBot{
 	        String formattedDate = formatter.format(d);
 	        return formattedDate;
 		} catch (ParseException e) {
-			e.printStackTrace();
 			return date;
 		}
 	}
@@ -181,9 +183,9 @@ public class PostBot implements IChatBot{
 		MyMessage message = new MyMessage();
 		message.setText(operation.type + " " + operation.attr + "\n" + parseDate(operation.date) + 
 				"\n" + operation.addr);
-		Double[] coordinates = indexApi.getCoordinates(operation.index);
+		Location coordinates = indexApi.getCoordinates(operation.index);
 		if (coordinates != null) {
-			message.setCoordinates(new Float(coordinates[0]), new Float(coordinates[1]));
+			message.setCoordinates(coordinates);
 		}
 		return message;
 	}

@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import chatbotTask.IChatBot;
 import chatbotTask.Info;
-import chatbotTask.MyMessage;
 import chatbotTask.SubbotChangerBot;
+import containers.MyMessage;
 
 class SubbotChangerBotShould {
 	

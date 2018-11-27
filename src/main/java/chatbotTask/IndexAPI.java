@@ -7,6 +7,8 @@ import java.net.URL;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import containers.Location;
+
 public class IndexAPI implements IIndexAPI{
 	
 	private JSONObject response;
@@ -33,14 +35,14 @@ public class IndexAPI implements IIndexAPI{
 	}
 	
 	@Override
-	public Double[] getCoordinates(String index) {
+	public Location getCoordinates(String index) {
 		connectAndGetResp(index);
 		
 		if (response != null && response.has("office")) {
 			JSONObject office = response.getJSONObject("office");
 			if (office.has("latitude") && office.has("longitude")) {
-				return new Double[] {office.getDouble("latitude"),
-						office.getDouble("longitude")};
+				return new Location(office.getDouble("latitude"),
+						office.getDouble("longitude"));
 			}
 		}
 		return null;

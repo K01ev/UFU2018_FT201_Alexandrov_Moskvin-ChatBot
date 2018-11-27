@@ -1,5 +1,7 @@
 package chatbotTask;
 
+import containers.Location;
+
 public interface IIndexAPI {
-	public Double[] getCoordinates(String index);
+	public Location getCoordinates(String index);
 }

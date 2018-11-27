@@ -1,7 +1,7 @@
 package chatbotTask;
 
 import chatbotTask.IChatBot;
-import chatbotTask.MyMessage;
+import containers.MyMessage;
 
 public class TestChatBot implements IChatBot {
 	

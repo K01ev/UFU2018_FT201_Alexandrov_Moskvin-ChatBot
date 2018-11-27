@@ -1,12 +1,11 @@
-package chatbotTask;
+package containers;
 
 import java.util.List;
 
 public class MyMessage {
 	private String text;
 	private List<List<String>>  replyButtons;
-	private Float latitude;
-	private Float longitude;
+	private Location coordinates;
 	
 	public MyMessage() {	}
 	
@@ -38,16 +37,15 @@ public class MyMessage {
 		return replyButtons;
 	}
 	
-	public void setCoordinates(float latitude, float longitude) {
-		this.latitude = latitude;
-		this.longitude = longitude;
+	public void setCoordinates(Location location) {
+		this.coordinates = location;
 	}
 	
 	public boolean hasCoordinates() {
-		return latitude != null && longitude != null;
+		return coordinates != null;
 	}
 	
-	public Float[] getCoordinates() {
-		return new Float[] {latitude, longitude};
+	public Location getCoordinates() {
+		return coordinates;
 	}
 }

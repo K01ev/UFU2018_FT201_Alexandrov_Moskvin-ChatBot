@@ -10,7 +10,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
-import chatbotTask.MyMessage;
+import containers.Location;
+import containers.MyMessage;
 
 public class Converter {
 
@@ -48,9 +49,9 @@ public class Converter {
 	public static SendLocation MyMessageToSendLocation(MyMessage message) {
 		if (message.hasCoordinates()) {
 			SendLocation sendLocation = new SendLocation();
-			Float[] location = message.getCoordinates();
-			sendLocation.setLatitude(location[0]);
-			sendLocation.setLongitude(location[1]);
+			Location location = message.getCoordinates();
+			sendLocation.setLatitude(location.latitude);
+			sendLocation.setLongitude(location.longitude);
 			return sendLocation;
 		}
 		return null;

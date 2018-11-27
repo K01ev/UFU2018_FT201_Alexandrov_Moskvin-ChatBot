@@ -1,12 +1,10 @@
 package chatbotTask;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import containers.Location;
+import containers.MyMessage;
 
 class PostBotShould {
 
@@ -28,6 +26,26 @@ class PostBotShould {
 		assertEquals("Прием Партионный\n11-12-2011\nЕкатеринбург", answers[0].getText());
 		assertEquals("Вручение Мне\n12-12-2011\nЕкатеринбург", answers[1].getText());
 	}
+	
+	@Test
+	void testGetLastOperationNoCoordinates() {
+		PostBot bot = new PostBot(new TestPostApi(), new TestIndexApi());
+		bot.reaction(new MyMessage("/info"));
+		MyMessage[] answers = bot.reaction(new MyMessage("123"));
+		
+		assertEquals(false, answers[0].hasCoordinates());
+	}
+	
+	@Test
+	void testGetLastOperationCorrectCoordinates() {
+		PostBot bot = new PostBot(new TestPostApi(), new TestIndexApi(new Location(0, 0)));
+		bot.reaction(new MyMessage("/info"));
+		MyMessage[] answers = bot.reaction(new MyMessage("123"));
+		
+		assertEquals(true, answers[0].hasCoordinates());
+		assertEquals(0, answers[0].getCoordinates().latitude);
+		assertEquals(0, answers[0].getCoordinates().longitude);
+	}
 
 }
 
@@ -44,10 +62,20 @@ class TestPostApi implements IPostAPI {
 }
 
 class TestIndexApi implements IIndexAPI {
+	
+	private final Location answer;
+	
+	public TestIndexApi() {
+		this(null);
+	}
+	
+	public TestIndexApi(Location answer) {
+		this.answer = answer;
+	}
 
 	@Override
-	public Double[] getCoordinates(String index) {
-		return null;
+	public Location getCoordinates(String index) {
+		return answer;
 	}
 	
 }
