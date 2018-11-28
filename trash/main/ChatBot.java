@@ -52,14 +52,10 @@ public class ChatBot implements IChatBot
 		return Info.help;
 	}
 
-
-
 	@Override
 	public String getName() {
 		return "question_answer_bot";
 	}
-
-
 
 	@Override
 	public MyMessage[] reaction(MyMessage message) {

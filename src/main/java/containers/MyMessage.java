@@ -4,6 +4,7 @@ import java.util.List;
 
 public class MyMessage {
 	private String text;
+	private boolean hasReplyButtons = false;
 	private List<List<String>>  replyButtons;
 	private Location coordinates;
 	
@@ -26,11 +27,12 @@ public class MyMessage {
 	}
 	
 	public void setReplyButtons(List<List<String>> buttons) {
+		hasReplyButtons = (buttons != null) ? true : false;
 		replyButtons = buttons;
 	}
 	
 	public boolean hasReplyButtons() {
-		return !((replyButtons == null) || (replyButtons.isEmpty()));
+		return hasReplyButtons;
 	}
 	
 	public List<List<String>> getReplyButtons() {

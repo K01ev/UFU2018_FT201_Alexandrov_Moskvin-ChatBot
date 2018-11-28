@@ -76,7 +76,6 @@ public class PostBot implements IChatBot{
 		state = State.WAITING;
 	}
 	
-	
 	@Override
 	public String getName() {
 		return "post_bot";
@@ -181,8 +180,9 @@ public class PostBot implements IChatBot{
 	
 	private MyMessage postOperationToMyMessage(PostOperation operation) {
 		MyMessage message = new MyMessage();
-		message.setText(operation.type + " " + operation.attr + "\n" + parseDate(operation.date) + 
-				"\n" + operation.addr);
+		message.setText(operation.type.concat(" ").concat(operation.attr).concat("\n")
+				.concat(parseDate(operation.date)).concat("\n")
+				.concat(operation.addr));
 		Location coordinates = indexApi.getCoordinates(operation.index);
 		if (coordinates != null) {
 			message.setCoordinates(coordinates);
@@ -198,5 +198,4 @@ public class PostBot implements IChatBot{
 		}
 		return messages;
 	}
-	
 }
